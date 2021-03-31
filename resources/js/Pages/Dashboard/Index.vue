@@ -7,6 +7,6 @@
 
 <script>
     export default {
-        props: ['fname', 'lname']
+        props: ['sheets']
     }
 </script>
