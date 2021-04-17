@@ -15,3 +15,4 @@ use App\Http\Controllers\PageController;
 */
 
 Route::get('/', [PageController::class, 'index']);
+Route::get('/vg-data/{gSheetId}/{leaderName}', [PageController::class, 'showVictoryGroupData']);

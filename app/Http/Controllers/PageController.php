@@ -11,30 +11,37 @@ class PageController extends Controller
 {
 
     /**
-     * Undocumented function
+     * Show index page
      *
      * @param Request $request
      * @return void
      */
     public function index(Request $request)
     {
-        $data = [
-            'fname' => 'Evan',
-            'lname' => 'Tolorio'
-        ];
-
-        // $googleSheetId = $request->googleSheetId;
-        $googleSheetId = env('GOOGLE_SPREADSHEET_ID', false);
-
-        if (!$googleSheetId) return response(404);
-
-        $client = Google_Spreadsheet::getClient(storage_path().'/app/victory-lb-service-account-key.json');
-
+        $googleSheetId = $this->getGoogleSheetId();
+        $client        = $this->getGoogleClient();
 
         // Get the sheet instance by sheets_id and sheet name
         $sheet = $client->file($googleSheetId)->sheet('Leaders Metadata');;
         // Fetch data without cache
-        $items = $sheet->fetch(true)->items;
+        $leadersOptions = [];
+        $leadersData    = $sheet->fetch(true)->items;
+        
+        foreach ($leadersData as $data) {
+            $vgLeaders = $data["VG Leaders"];
+            $vgLeaders = explode("\n", $vgLeaders);
+            
+            foreach($vgLeaders as $vgLeader) {
+                $tempData = [
+                    'vgLeader' => $vgLeader,
+                    'lgLeader' => $data["LG Leader"],
+                    'gSheetId' => $data["GSheet ID"]
+                ];
+
+                $leadersOptions[] = $tempData;
+            }
+        
+        }
 
         // if (empty($items)) return json_encode([]);
 
@@ -93,12 +100,58 @@ class PageController extends Controller
         // }
 
         // return json_encode($givingData);
-        
-        dd($items);
 
         return Inertia::render(
             'Dashboard/Index', 
-            ['sheets' => $sheets]
+            ['leadersOptions' => $leadersOptions]
         );
     }
+
+
+    /**
+     * Show page for accessing Victory Group data
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function showVictoryGroupData(string $gSheetId, string $leaderName)
+    {
+        $googleSheetId = $gSheetId;
+        $client        = $this->getGoogleClient();
+
+        // Get the sheet instance by sheets_id and sheet name
+        $sheet = $client->file($googleSheetId)->sheet($leaderName);
+
+        $vgData = $sheet->fetch(true)->items;;
+
+        // dd($vgData);
+
+        return Inertia::render(
+            'Dashboard/VictoryGroupData', 
+            ['data' => $vgData]
+        );
+    }
+
+    /**
+     * Get Google client
+     *
+     * @return Google_Spreadsheet_File
+     */
+    private function getGoogleClient()
+    {
+        return Google_Spreadsheet::getClient(storage_path().'/app/victory-lb-service-account-key.json');
+    }
+
+    /**
+     * Get Google client
+     *
+     * @return string
+     */
+    private function getGoogleSheetId()
+    {
+        $googleSheetId = env('GOOGLE_SPREADSHEET_ID', false);
+
+        return ($googleSheetId) ? ($googleSheetId) : abort(404);
+    }
+
 }
