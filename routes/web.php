@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\VictoryGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,4 @@ use App\Http\Controllers\PageController;
 
 Route::get('/', [PageController::class, 'index']);
 Route::get('/vg-data/{gSheetId}/{leaderName}', [PageController::class, 'showVictoryGroupData']);
+Route::post('/vg-data/{gSheetId}/{leaderName}', [VictoryGroupController::class, 'update']);

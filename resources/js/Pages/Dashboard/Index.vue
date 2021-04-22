@@ -35,7 +35,6 @@
 
                 const leaderData = this.leadersOptions[indexSelected];
                 let url = encodeURI(`${leaderData.gSheetId}/${leaderData.vgLeader}`);
-                console.log(url);
                 
                 this.$inertia.get(`/vg-data/${url}`);
                 
