@@ -44,7 +44,7 @@ class PageController extends Controller
         }
 
         return Inertia::render(
-            'Dashboard/Index', 
+            'Dashboard/DashboardIndex', 
             ['leadersOptions' => $leadersOptions]
         );
     }
@@ -68,7 +68,7 @@ class PageController extends Controller
 
 
         return Inertia::render(
-            'Dashboard/VictoryGroupData', 
+            'VictoryGroup/VictoryGroupIndex', 
             ['data' => $vgData]
         );
     }

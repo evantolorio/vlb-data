@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <layout title="Home | VLB Discipleship Data">
         <select id="leaders-options"
             v-model="leaderSelected"
         >
@@ -15,12 +15,18 @@
         >
             Search
         </button>
-    </div>
+    </layout>
 </template>
 
 
 <script>
+    import Layout from '../Layout';
+
     export default {
+        components: {
+            Layout,
+        },
+
         props: ['leadersOptions'],
 
         data() {
