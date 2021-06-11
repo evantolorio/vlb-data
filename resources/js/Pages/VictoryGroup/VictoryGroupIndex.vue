@@ -22,11 +22,16 @@
                     </button>
                 </template>
                 <template v-else>
-                    <button @click.prevent="editMode = !editMode"
-                        class="rounded-md py-2 px-4 text-white bg-blue-500"
-                    >
-                        Edit
-                    </button>
+                    <div class="mb-4">
+                        <button @click.prevent=""
+                            class="btn bg-indigo-500 hover:bg-indigo-700 text-sm text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline inline-flex items-center"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Add Member</span>
+                        </button>
+                    </div>
                 </template>
                 <!-- This example requires Tailwind CSS v2.0+ -->
                 <div class="flex flex-col">
